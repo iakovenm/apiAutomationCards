@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.7",
+    "npm-check-updates": "^16.11.1"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
