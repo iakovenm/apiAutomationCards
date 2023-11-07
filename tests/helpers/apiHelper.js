@@ -2,6 +2,9 @@ const siteURL = 'https://deckofcardsapi.com/';
 const newDeckEndpoint = 'https://deckofcardsapi.com/api/deck/new/';
 const shuffleTheDeckEndpoint = (deckId) => `https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`;
 const drawCardsEndpoint = (deckId, amount) => `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${amount}`;
+const header = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+};
 
 async function getCardsPage() {
     const siteResponse = (await fetch(siteURL, {method: 'GET'}));
@@ -14,6 +17,7 @@ async function getNewDeck() {
 
     return deckData;
 }
+
 
 async function shuffleTheDeck(deckId) {
     const shuffleResponse = await fetch(shuffleTheDeckEndpoint(deckId), {method: 'GET'});
@@ -29,6 +33,18 @@ async function drawCards(deckId, amount) {
     return drawData;
 }
 
+async function drawCardsWithInjection(deckId, injection) {
+    const drawResponse = await fetch(drawCardsEndpoint(deckId, injection), {method: 'GET', headers: header});
+
+    return drawResponse;
+}
+
+async function drawCardsWithHeader(deckId, count) {
+    const drawResponse = await fetch(drawCardsEndpoint(deckId, count), {method: 'GET', headers: header});
+
+    return drawResponse;
+}
+
 async function hasBlackjack(hand) {
     const hasAce = hand.includes('ACE');
     const has10PointCard = hand.includes('10') || hand.includes('JACK') || hand.includes('QUEEN') || hand.includes('KING');
@@ -42,4 +58,6 @@ module.exports = {
     shuffleTheDeck,
     drawCards,
     hasBlackjack,
+    drawCardsWithInjection,
+    drawCardsWithHeader,
 };
